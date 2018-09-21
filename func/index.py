@@ -44,7 +44,7 @@ def _convert_to_degress(value):
 
     return d + (m / 60.0) + (s / 3600.0)
 
-def get_exif_location(exif_data, file_name):
+def get_exif_location(exif_data, file_name, current_dir):
     """
     Returns the latitude and longitude, if available, from the provided exif_data (obtained through get_exif_data above)
     """
@@ -66,7 +66,7 @@ def get_exif_location(exif_data, file_name):
             lon = 0 - lon
 
     return {
-        'file_name': file_name,
+        'file_name': file_name.replace(current_dir, ""),
         'location': {
             'lat': lat,
             'lon': lon
@@ -78,7 +78,7 @@ def get_exif_location(exif_data, file_name):
 
 # Glue script made by myself :-)
 
-def get_exif_data_for_folder(directory):
+def get_exif_data_for_folder(directory, current_dir):
     files = list_all_files(directory)
 
     data_list = []
@@ -86,7 +86,7 @@ def get_exif_data_for_folder(directory):
     for file in files:
         exif_data = get_exif(file)
 
-        data = get_exif_location(exif_data, file)
+        data = get_exif_location(exif_data, file, current_dir)
 
         data_list.append(data)
 
