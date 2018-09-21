@@ -9,7 +9,7 @@ image_dir = os.getcwd() + "/images" # TODO: probably a better way
 app = Flask(__name__)
 
 @app.route("/")
-def hello():
+def get_exif_data():
     data = get_exif_data_for_folder(image_dir)
 
     return jsonify(data)
