@@ -24,9 +24,6 @@ def list_all_files(directory):
 
     return files
 
-
-
-
 # https://gist.github.com/snakeye/fdc372dbf11370fe29eb
 def _get_if_exist(data, key):
     if key in data:
@@ -47,7 +44,7 @@ def _convert_to_degress(value):
 
     return d + (m / 60.0) + (s / 3600.0)
 
-def get_exif_location(exif_data):
+def get_exif_location(exif_data, file_name):
     """
     Returns the latitude and longitude, if available, from the provided exif_data (obtained through get_exif_data above)
     """
@@ -68,17 +65,29 @@ def get_exif_location(exif_data):
         if gps_longitude_ref.values[0] != 'E':
             lon = 0 - lon
 
-    return file, lat, lon
+    return file_name, lat, lon
 
 
-# Return
 
+
+# Glue script made by myself :-)
+
+def get_exif_data_for_folder(directory):
+    files = list_all_files(image_dir)
+
+    data_list = []
+
+    for file in files:
+        exif_data = get_exif(file)
+
+        data = get_exif_location(exif_data, file)
+
+        data_list.append(data)
+
+    return data_list
+
+
+# Run it
 image_dir = os.getcwd() + "/images" # TODO: probably a better way
-files = list_all_files(image_dir)
 
-for file in files:
-    exif_data = get_exif(file)
-
-    data = get_exif_location(exif_data)
-
-    print(data)
+print(get_exif_data_for_folder(image_dir))
