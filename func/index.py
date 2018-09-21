@@ -65,7 +65,13 @@ def get_exif_location(exif_data, file_name):
         if gps_longitude_ref.values[0] != 'E':
             lon = 0 - lon
 
-    return file_name, lat, lon
+    return {
+        'file_name': file_name,
+        'location': {
+            'lat': lat,
+            'lon': lon
+        }
+    }
 
 
 
