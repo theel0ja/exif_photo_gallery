@@ -66,7 +66,7 @@ def get_exif_location(exif_data, file_name, current_dir):
             lon = 0 - lon
 
     return {
-        'file_name': file_name.replace(current_dir, ""),
+        'file_name': file_name.replace(current_dir + "/", ""),
         'location': {
             'lat': lat,
             'lon': lon
